@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Bazel temps
+bazel-bin
+bazel-coding-prep-cpp
+bazel-out
+bazel-testlogs
