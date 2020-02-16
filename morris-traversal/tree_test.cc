@@ -1,7 +1,7 @@
 #include "tree.h"
 
-#include "absl/random/random.h"
 #include "absl/algorithm/container.h"
+#include "absl/random/random.h"
 #include "gmock/gmock-matchers.h"
 #include "gtest/gtest.h"
 
@@ -33,11 +33,16 @@ TEST(Tree, TestRandomInsert) {
   for (int i : data) {
     t.Insert(i);
   }
-  
+
   absl::c_sort(data);
   std::vector<int> in_order;
   t.InOrder([&](int value) { in_order.push_back(value); });
   EXPECT_THAT(in_order, testing::ElementsAreArray(data));
+}
+
+TEST(Tree, TestRandomMorrisInOrderEmpty) {
+  Tree<int> t;
+  t.MorrisInOrder([](int) {});
 }
 
 TEST(Tree, TestRandomMorrisInOrder) {
@@ -46,18 +51,17 @@ TEST(Tree, TestRandomMorrisInOrder) {
   for (int i : data) {
     t.Insert(i);
   }
-  
+
   absl::c_sort(data);
   std::vector<int> in_order;
   t.MorrisInOrder([&](int value) { in_order.push_back(value); });
   EXPECT_THAT(in_order, testing::ElementsAreArray(data));
-  
+
   // Double check tree is still intact.
   std::vector<int> new_in_order;
   t.InOrder([&](int value) { new_in_order.push_back(value); });
   EXPECT_THAT(new_in_order, testing::ElementsAreArray(data));
 }
-
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

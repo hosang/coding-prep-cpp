@@ -88,17 +88,18 @@ namespace {
 
 template <typename Node>
 bool AttachRightmostOrDetach(Node* tree, Node* node) {
-  while (tree->right != nullptr) {
-    if (tree->right == node) {
-      // Found, detach.
-      tree->right = nullptr;
-      return false;
-    }
+  while (tree->right != nullptr && tree->right != node) {
     tree = tree->right;
   }
-  // tree->right == nullptr: Not found, attach.
-  tree->right = node;
-  return true;
+  if (tree->right == node) {
+    // Found, detach.
+    tree->right = nullptr;
+    return false;
+  } else {
+    // tree->right == nullptr: Not found, attach.
+    tree->right = node;
+    return true;
+  }
 }
 
 }  // namespace
